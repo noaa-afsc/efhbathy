@@ -40,7 +40,6 @@ vignettes/*.pdf
 .Renviron
 
 # Local data directory
-/data/
 /sim_data/
 /archive/
 
@@ -49,8 +48,4 @@ vignettes/*.pdf
 *.docx
 *.pptx
 /Presentation/
-/plots/
 /output/
-
-# Get data
-/R/get_data.R
