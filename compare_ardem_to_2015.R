@@ -136,26 +136,23 @@ ggplot() +
   scale_y_continuous(name = "2022 EBS Shelf Survey Depth (m)"),
 ggplot() +
   geom_point(data = haul_loc,
-             mapping = aes(x = BOTTOM_DEPTH, ARDEM_RASTER_DEPTH)) +
+             mapping = aes(x = BOTTOM_DEPTH, -1*ARDEM_RASTER_DEPTH)) +
   scale_x_continuous(name = "ARDEM Depth (m)") +
   scale_y_continuous(name = "2022 EBS Shelf Survey Depth (m)")
 )
 )
 dev.off()
 
-
-
-
 png(here::here("plots", "survey_vs_bathy2015_map.png"), width = 8, height = 8, units = "in", res = 300)
 print(
   ggplot() +
-    geom_tile(data = ebs_raster_2015_df,
-              mapping = aes(x = x, y = y, fill = ebs_bath5hac)) +
+    geom_contour_filled(data = ebs_raster_2015_df,
+                        mapping = aes(x = x, y = y, z = ebs_bath5hac),
+                        breaks = c(seq(0,200,10), Inf)) +
     geom_sf(data = haul_loc,
-            mapping = aes(fill = BOTTOM_DEPTH)) +
-    scale_fill_fermenter(name = "Depth (m)", 
-                         breaks = c(seq(0,140,20), 200), 
-                         direction = -1) +
+            mapping = aes(fill = cut(BOTTOM_DEPTH, breaks =  c(seq(0,200,10), Inf))),
+            shape = 21) +
+    scale_fill_viridis_d(name = "Depth (m)") +
     ggtitle("bathy_2015_1km_2020mod") +
     theme(legend.position = "bottom")
 )
