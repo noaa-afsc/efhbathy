@@ -149,10 +149,12 @@ print(
     geom_tile(data = ebs_raster_2015_df,
                         mapping = aes(x = x, 
                                       y = y, 
-                                      fill = cut(ebs_bath5hac, breaks = c(seq(0,200,10), Inf)))) +
+                                      fill =cut(ebs_bath5hac, breaks = c(seq(0,200,10), Inf),
+                                                ordered_result = TRUE))) +
     geom_sf(data = haul_loc,
             mapping = aes(fill = cut(BOTTOM_DEPTH,
-                           breaks = c(seq(0,200,10), Inf))),
+                           breaks = c(seq(0,200,10), Inf),
+                           ordered_result = TRUE)),
             shape = 21) +
     scale_fill_viridis_d(name = "Depth (m)", drop = FALSE) +
     ggtitle("bathy_2015_1km_2020mod and 2022 EBS shelf survey bottom depths") +
@@ -167,10 +169,12 @@ print(
     geom_tile(data = ARDEM_reproj_df,
                         mapping = aes(x = x, 
                                       y = y, 
-                                      fill = cut(layer*-1, breaks = c(seq(0,200,10), Inf)))) +
+                                      fill = cut(layer*-1, breaks = c(seq(0,200,10), Inf),
+                                                 ordered_result = TRUE))) +
     geom_sf(data = haul_loc,
             mapping = aes(fill = cut(BOTTOM_DEPTH,
-                                     breaks = c(seq(0,200,10), Inf))),
+                                     breaks = c(seq(0,200,10), Inf),
+                                     ordered_result = TRUE)),
             shape = 21) +
     scale_fill_viridis_d(name = "Depth (m)", drop = FALSE) +
     scale_color_viridis_d(name = "Depth (m)", drop = FALSE, guide = FALSE) +
