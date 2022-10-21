@@ -10,3 +10,6 @@ See /plots/ directory for all plots.
 
 
 ![ARDEM v2 and 2022 EBS shelf survey bottom depths](./plots/survey_vs_ARDEM_map.png)
+
+
+![Survey versus bathy_2015_1km_2020mod and ARDEM v2](./plots/ardem_vs_bathy2015_points.png)
