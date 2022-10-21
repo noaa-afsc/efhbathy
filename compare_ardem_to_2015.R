@@ -153,7 +153,23 @@ print(
             mapping = aes(fill = cut(BOTTOM_DEPTH, breaks =  c(seq(0,200,10), Inf))),
             shape = 21) +
     scale_fill_viridis_d(name = "Depth (m)") +
-    ggtitle("bathy_2015_1km_2020mod") +
+    ggtitle("bathy_2015_1km_2020mod and 2022 EBS shelf survey bottom depths") +
+    theme(legend.position = "bottom")
+)
+dev.off()
+
+
+png(here::here("plots", "survey_vs_ARDEM_map.png"), width = 8, height = 8, units = "in", res = 300)
+print(
+  ggplot() +
+    geom_contour_filled(data = ARDEM_reproj_df,
+                        mapping = aes(x = x, y = y, z = layer*-1),
+                        breaks = c(seq(0,200,10), Inf)) +
+    geom_sf(data = haul_loc,
+            mapping = aes(fill = cut(BOTTOM_DEPTH, breaks =  c(seq(0,200,10), Inf))),
+            shape = 21) +
+    scale_fill_viridis_d(name = "Depth (m)") +
+    ggtitle("ARDEM and 2022 EBS Shelf survey bottom depths") +
     theme(legend.position = "bottom")
 )
 dev.off()
