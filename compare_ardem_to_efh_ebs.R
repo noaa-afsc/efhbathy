@@ -154,6 +154,81 @@ print(
 dev.off()
 
 
+
+
+# Effects on slope and aspect ----------------------------------------------------------------------
+ebs_bathy_slope_df <- 
+  raster::terrain(
+    ebs_bathy_raster, 
+    opt = c('slope', 'aspect'), 
+    unit = 'degrees', 
+    neighbors = 8 # Queen case (use eight neighboring cells)
+  ) |>
+  raster::rasterToPoints() |>
+  as.data.frame()
+
+ARDEM_slope_df <- raster::terrain(
+  ARDEM_reproj, 
+  opt = c('slope', 'aspect'), 
+  unit = 'degrees', 
+  neighbors = 8 # Queen case (use eight neighboring cells)
+) |>
+  raster::rasterToPoints() |>
+  as.data.frame()
+
+png(here::here("plots", "EBS_ardem_vs_EBS_bathy_slope.png"), width = 18, height = 10, units = "in", res = 300)
+print(
+  cowplot::plot_grid(
+    ggplot() +
+      geom_contour_filled(data = ebs_bathy_slope_df,
+                          mapping = aes(x = x, 
+                                        y = y, 
+                                        z = slope),
+                          breaks = c(0, 0.1, 0.2, seq(0.4, 2, 0.4), 10, 40)) +
+      scale_fill_viridis_d(name = expression(Slope~(degree)), drop = FALSE, option = "C") +
+      ggtitle("EFH_bathy") +
+      theme(legend.position = "bottom"),
+    ggplot() +
+      geom_contour_filled(data = ARDEM_slope_df,
+                          mapping = aes(x = x, 
+                                        y = y, 
+                                        z = slope),
+                          breaks = c(0, 0.1, 0.2, seq(0.4, 2, 0.4), 10, 40)) +
+      scale_fill_viridis_d(name = expression(Slope~(degree)), drop = FALSE, option = "C") +
+      ggtitle("ARDEM v2") +
+      theme(legend.position = "bottom")
+  )
+)
+dev.off()
+
+
+
+png(here::here("plots", "EBS_ardem_vs_EBS_bathy_aspect.png"), width = 18, height = 10, units = "in", res = 300)
+print(
+  cowplot::plot_grid(
+    ggplot() +
+      geom_contour_filled(data = ebs_bathy_slope_df,
+                          mapping = aes(x = x, 
+                                        y = y, 
+                                        z = aspect),
+                          breaks = seq(0,360,45)) +
+      scale_fill_viridis_d(name = expression(Aspect~(degree)), drop = FALSE, option = "A") +
+      ggtitle("EFH_bathy") +
+      theme(legend.position = "bottom"),
+    ggplot() +
+      geom_contour_filled(data = ARDEM_slope_df,
+                          mapping = aes(x = x, 
+                                        y = y, 
+                                        z = aspect),
+                          breaks = seq(0,360,45)) +
+      scale_fill_viridis_d(name = expression(Aspect~(degree)), drop = FALSE, option = "A") +
+      ggtitle("ARDEM v2") +
+      theme(legend.position = "bottom")
+  )
+)
+dev.off()
+
+
 # Check if the EFH and archived raster files are the same ------------------------------------------
 ebs_bathy_raster <- raster::raster(here::here("data", "EBS", "Bathy.grd"))
 ebs_2020mod_raster <- raster::raster(here::here("data", "EBS", "bathy_2015_1km_2020mod.grd"))
@@ -165,3 +240,5 @@ ebs_2020mod_raster
 # All non-NA values are identical
 check_identical <- ebs_2020mod_raster == ebs_2020mod_raster 
 all(check_identical@data@values[!is.na(check_identical@data@values)])
+
+
