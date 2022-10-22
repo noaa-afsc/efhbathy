@@ -180,20 +180,18 @@ png(here::here("plots", "EBS_ardem_vs_EBS_bathy_slope.png"), width = 18, height 
 print(
   cowplot::plot_grid(
     ggplot() +
-      geom_contour_filled(data = ebs_bathy_slope_df,
+      geom_tile(data = ebs_bathy_slope_df,
                           mapping = aes(x = x, 
                                         y = y, 
-                                        z = slope),
-                          breaks = c(0, 0.1, 0.2, seq(0.4, 2, 0.4), 10, 40)) +
+                                        fill = cut(slope, c(0, 0.1, 0.2, seq(0.4, 2, 0.4), 10, 40), right = FALSE))) +
       scale_fill_viridis_d(name = expression(Slope~(degree)), drop = FALSE, option = "C") +
       ggtitle("EFH_bathy") +
       theme(legend.position = "bottom"),
     ggplot() +
-      geom_contour_filled(data = ARDEM_slope_df,
+      geom_tile(data = ARDEM_slope_df,
                           mapping = aes(x = x, 
                                         y = y, 
-                                        z = slope),
-                          breaks = c(0, 0.1, 0.2, seq(0.4, 2, 0.4), 10, 40)) +
+                fill = cut(slope, c(0, 0.1, 0.2, seq(0.4, 2, 0.4), 10, 40), right = FALSE))) +
       scale_fill_viridis_d(name = expression(Slope~(degree)), drop = FALSE, option = "C") +
       ggtitle("ARDEM v2") +
       theme(legend.position = "bottom")
@@ -207,20 +205,18 @@ png(here::here("plots", "EBS_ardem_vs_EBS_bathy_aspect.png"), width = 18, height
 print(
   cowplot::plot_grid(
     ggplot() +
-      geom_contour_filled(data = ebs_bathy_slope_df,
+      geom_tile(data = ebs_bathy_slope_df,
                           mapping = aes(x = x, 
                                         y = y, 
-                                        z = aspect),
-                          breaks = seq(0,360,45)) +
+                                        fill = cut(aspect, breaks = seq(0,360,45)))) +
       scale_fill_viridis_d(name = expression(Aspect~(degree)), drop = FALSE, option = "A") +
       ggtitle("EFH_bathy") +
       theme(legend.position = "bottom"),
     ggplot() +
-      geom_contour_filled(data = ARDEM_slope_df,
+      geom_tile(data = ARDEM_slope_df,
                           mapping = aes(x = x, 
                                         y = y, 
-                                        z = aspect),
-                          breaks = seq(0,360,45)) +
+                                        fill = cut(aspect, breaks = seq(0,360,45)))) +
       scale_fill_viridis_d(name = expression(Aspect~(degree)), drop = FALSE, option = "A") +
       ggtitle("ARDEM v2") +
       theme(legend.position = "bottom")
