@@ -106,41 +106,6 @@ print(
 )
 dev.off()
 
-# Plot for subareas 1-6
-for(ii in 1:6) {
-  
-  bssa <- akgfmaps::get_base_layers(select.region = paste0("bssa", ii), set.crs = "EPSG:3338")
-  
-  png(here::here("plots", paste0("SLOPE_bssa_", ii, "_ardem_vs_EBS_bathy.png")), 
-      width = 18, height = 10, units = "in", res = 300)
-  print(
-    cowplot::plot_grid(
-      ggplot() +
-        geom_contour_filled(data = ARDEM_reproj_df,
-                            mapping = aes(x = x, y = y, z = layer),
-                            breaks = c(seq(0,1200,100), Inf)) +
-        geom_sf(data = bssa$survey.strata, fill = NA, color = "white") +
-        coord_sf(xlim = bssa$plot.boundary$x,
-                 ylim = bssa$plot.boundary$y) +
-        scale_fill_viridis_d(name = "Depth (m)") +
-        ggtitle("ARDEM v2") +
-        theme(legend.position = "bottom"),
-      ggplot() +
-        geom_contour_filled(data = Slope_bath_raster_df,
-                            mapping = aes(x = x, y = y, z = ebs_bath5hac),
-                            breaks = c(seq(0,1200,100), Inf)) +
-        geom_sf(data = bssa$survey.strata, fill = NA, color = "white") +
-        coord_sf(xlim = bssa$plot.boundary$x,
-                 ylim = bssa$plot.boundary$y) +
-        scale_fill_viridis_d(name = "Depth (m)") +
-        ggtitle("EBS_bathy") +
-        theme(legend.position = "bottom")
-    )
-  )
-  dev.off()
-  
-}
-
 
 # Examining the correlation between 2022 survey depths and nearest raster cell depths from ARDEM and Slope_bath
 haul_loc <- haul_dat |>
@@ -173,6 +138,41 @@ print(
     facet_grid(~name),
 )
 dev.off()
+
+# Plot for subareas 1-6
+for(ii in 1:6) {
+  
+  bssa <- akgfmaps::get_base_layers(select.region = paste0("bssa", ii), set.crs = "EPSG:3338")
+  
+  png(here::here("plots", paste0("SLOPE_bssa_", ii, "_ardem_vs_EBS_bathy.png")), 
+      width = 18, height = 10, units = "in", res = 300)
+  print(
+    cowplot::plot_grid(
+      ggplot() +
+        geom_contour_filled(data = ARDEM_reproj_df,
+                            mapping = aes(x = x, y = y, z = layer),
+                            breaks = c(seq(0,1200,100), Inf)) +
+        geom_sf(data = bssa$survey.area, fill = NA) +
+        coord_sf(xlim = bssa$plot.boundary$x,
+                 ylim = bssa$plot.boundary$y) +
+        scale_fill_viridis_d(name = "Depth (m)", drop = FALSE) +
+        ggtitle("ARDEM v2") +
+        theme(legend.position = "bottom"),
+      ggplot() +
+        geom_contour_filled(data = Slope_bath_raster_df,
+                            mapping = aes(x = x, y = y, z = ebs_bath5hac),
+                            breaks = c(seq(0,1200,100), Inf)) +
+        geom_sf(data = bssa$survey.area, fill = NA) +
+        coord_sf(xlim = bssa$plot.boundary$x,
+                 ylim = bssa$plot.boundary$y) +
+        scale_fill_viridis_d(name = "Depth (m)", drop = FALSE) +
+        ggtitle("EBS_bathy") +
+        theme(legend.position = "bottom")
+    )
+  )
+  dev.off()
+  
+}
 
 png(here::here("plots", "SLOPE_survey_vs_bathy_map.png"), width = 8, height = 8, units = "in", res = 300)
 print(
