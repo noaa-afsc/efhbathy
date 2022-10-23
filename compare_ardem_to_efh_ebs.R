@@ -103,18 +103,13 @@ haul_loc$ARDEM_RASTER_DEPTH <- ARDEM_sf$layer[haul_loc$ARDEM_RASTER_INDEX]
 
 png(here::here("plots", "EBS_ardem_vs_EBS_bathy_points.png"), width = 10, height = 5, units = "in", res = 300)
 print(
-  cowplot::plot_grid(
     ggplot() +
-      geom_point(data = haul_loc,
-                 mapping = aes(x = BOTTOM_DEPTH, EBSBATHY_RASTER_DEPTH)) +
-      scale_x_continuous(name = "EBS_bathy Depth (m)") +
-      scale_y_continuous(name = "2022 EBS Shelf Survey Depth (m)"),
-    ggplot() +
-      geom_point(data = haul_loc,
-                 mapping = aes(x = BOTTOM_DEPTH, ARDEM_RASTER_DEPTH)) +
-      scale_x_continuous(name = "ARDEM Depth (m)") +
-      scale_y_continuous(name = "2022 EBS Shelf Survey Depth (m)")
-  )
+      geom_point(data = haul_loc |>
+                   tidyr::pivot_longer(cols = c("EBSBATHY_RASTER_DEPTH", "ARDEM_RASTER_DEPTH")),
+                 mapping = aes(x = BOTTOM_DEPTH, y = value)) +
+      scale_x_continuous(name = "2022 EBS Shelf Survey Depth (m)") +
+      scale_y_continuous(name = "Raster Depth (m)") +
+      facet_grid(~name),
 )
 dev.off()
 
@@ -159,7 +154,8 @@ dev.off()
 # Effects on slope and aspect ----------------------------------------------------------------------
 ebs_bathy_slope_df <- 
   raster::terrain(
-    ebs_bathy_raster, 
+    ebs_bathy_raster |>
+      raster::mask(map_npac$survey.area), 
     opt = c('slope', 'aspect'), 
     unit = 'degrees', 
     neighbors = 8 # Queen case (use eight neighboring cells)
@@ -168,7 +164,8 @@ ebs_bathy_slope_df <-
   as.data.frame()
 
 ARDEM_slope_df <- raster::terrain(
-  ARDEM_reproj, 
+  ARDEM_reproj |>
+    raster::mask(map_npac$survey.area), 
   opt = c('slope', 'aspect'), 
   unit = 'degrees', 
   neighbors = 8 # Queen case (use eight neighboring cells)
