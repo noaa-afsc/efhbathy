@@ -149,23 +149,35 @@ for(ii in 1:6) {
   print(
     cowplot::plot_grid(
       ggplot() +
-        geom_contour_filled(data = ARDEM_reproj_df,
-                            mapping = aes(x = x, y = y, z = layer),
-                            breaks = c(seq(0,1200,100), Inf)) +
+        # geom_contour_filled(data = ARDEM_reproj_df,
+        #                     mapping = aes(x = x, y = y, z = layer),
+        #                     breaks = c(seq(0,1200,100), Inf)) +
+        geom_tile(data = ARDEM_reproj_df,
+                            mapping = aes(x = x, y = y, fill = layer)) +
         geom_sf(data = bssa$survey.area, fill = NA) +
+        geom_sf(data = haul_loc,
+                mapping = aes(color = BOTTOM_DEPTH)) +
         coord_sf(xlim = bssa$plot.boundary$x,
                  ylim = bssa$plot.boundary$y) +
-        scale_fill_viridis_d(name = "Depth (m)", drop = FALSE) +
+        # scale_fill_viridis_d(name = "Depth (m)", drop = FALSE) +
+        scale_fill_viridis_c(name = "Depth (m)", limits = c(0,1500)) +
+        scale_color_viridis_c(name = "Depth (m)", limits = c(0,1500)) +
         ggtitle("ARDEM v2") +
         theme(legend.position = "bottom"),
       ggplot() +
-        geom_contour_filled(data = Slope_bath_raster_df,
-                            mapping = aes(x = x, y = y, z = ebs_bath5hac),
-                            breaks = c(seq(0,1200,100), Inf)) +
+        # geom_contour_filled(data = Slope_bath_raster_df,
+        #                     mapping = aes(x = x, y = y, z = ebs_bath5hac),
+        #                     breaks = c(seq(0,1200,100), Inf)) +
+        geom_tile(data = Slope_bath_raster_df,
+                            mapping = aes(x = x, y = y, fill = ebs_bath5hac)) +
         geom_sf(data = bssa$survey.area, fill = NA) +
+        geom_sf(data = haul_loc,
+                mapping = aes(color = BOTTOM_DEPTH)) +
         coord_sf(xlim = bssa$plot.boundary$x,
                  ylim = bssa$plot.boundary$y) +
-        scale_fill_viridis_d(name = "Depth (m)", drop = FALSE) +
+        # scale_fill_viridis_d(name = "Depth (m)", drop = FALSE) +
+        scale_fill_viridis_c(name = "Depth (m)", limits = c(0,1500)) +
+        scale_color_viridis_c(name = "Depth (m)", limits = c(0,1500)) +
         ggtitle("EBS_bathy") +
         theme(legend.position = "bottom")
     )
