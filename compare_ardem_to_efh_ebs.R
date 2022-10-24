@@ -15,7 +15,7 @@ ARDEM <- raster::raster(here::here("data", "ARDEMv2.0.nc"), varname = "z")
 
 set_extent <- raster::extent(ARDEM)
 set_extent@ymin <- 52
-set_extent@ymax <- 65
+set_extent@ymax <- 68
 set_extent@xmin <- 180
 set_extent@xmax <- 215
 ARDEM <- raster::crop(ARDEM, set_extent)
@@ -74,6 +74,61 @@ print(
                           mapping = aes(x = x, y = y, z = ebs_bath5hac),
                           breaks = c(seq(0,200,10), Inf)) +
       scale_fill_viridis_d(name = "Depth (m)") +
+      ggtitle("EBS_bathy") +
+      theme(legend.position = "bottom")
+  )
+)
+dev.off()
+
+
+png(here::here("plots", "EBS_ardem_vs_EBS_bathy_wlines.png"), width = 18, height = 10, units = "in", res = 300)
+print(
+  cowplot::plot_grid(
+    ggplot() +
+      geom_contour_filled(data = ARDEM_reproj_df,
+                          mapping = aes(x = x, y = y, z = layer),
+                          breaks = c(seq(0,200,10), Inf)) +
+      geom_sf(data = map_npac$bathymetry, fill = NA, color = "white", size = rel(1.3)) +
+      scale_fill_viridis_d(name = "Depth (m)") +
+      coord_sf(xlim = map_npac$plot.boundary$x,
+               ylim = map_npac$plot.boundary$y) +
+      ggtitle("ARDEM v2") +
+      theme(legend.position = "bottom"),
+    ggplot() +
+      geom_contour_filled(data = ebs_bathy_raster_df,
+                          mapping = aes(x = x, y = y, z = ebs_bath5hac),
+                          breaks = c(seq(0,200,10), Inf)) +
+      geom_sf(data = map_npac$bathymetry, fill = NA, color = "white", size = rel(1.3)) +
+      scale_fill_viridis_d(name = "Depth (m)") +
+      coord_sf(xlim = map_npac$plot.boundary$x,
+               ylim = map_npac$plot.boundary$y) +
+      ggtitle("EBS_bathy") +
+      theme(legend.position = "bottom")
+  )
+)
+dev.off()
+
+png(here::here("plots", "EBS_ardem_vs_EBS_bathy_50m.png"), width = 18, height = 10, units = "in", res = 300)
+print(
+  cowplot::plot_grid(
+    ggplot() +
+      geom_contour_filled(data = ARDEM_reproj_df,
+                          mapping = aes(x = x, y = y, z = layer),
+                          breaks = c(seq(0,200,50), Inf)) +
+      geom_sf(data = map_npac$survey.strata, fill = NA, color = "white", size = rel(1.3)) +
+      scale_fill_viridis_d(name = "Depth (m)") +
+      coord_sf(xlim = map_npac$plot.boundary$x,
+               ylim = map_npac$plot.boundary$y) +
+      ggtitle("ARDEM v2") +
+      theme(legend.position = "bottom"),
+    ggplot() +
+      geom_contour_filled(data = ebs_bathy_raster_df,
+                          mapping = aes(x = x, y = y, z = ebs_bath5hac),
+                          breaks = c(seq(0,200,50), Inf)) +
+      geom_sf(data = map_npac$survey.strata, fill = NA, color = "white", size = rel(1.3)) +
+      scale_fill_viridis_d(name = "Depth (m)") +
+      coord_sf(xlim = map_npac$plot.boundary$x,
+               ylim = map_npac$plot.boundary$y) +
       ggtitle("EBS_bathy") +
       theme(legend.position = "bottom")
   )
