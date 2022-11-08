@@ -54,6 +54,8 @@ ARDEM_reproj_df <- as.data.frame(raster::rasterToPoints(ARDEM_reproj))
 # Load EBS bathymetric raster
 ebs_bathy_raster <- raster::raster(here::here("data", "EBS", "Bathy.grd"))
 
+raster::rasterToPoints(ebs_bathy_raster)
+
 ebs_bathy_raster_df <- ebs_bathy_raster |>
   raster::mask(map_npac$survey.area) |>
   rasterToPoints() |>
