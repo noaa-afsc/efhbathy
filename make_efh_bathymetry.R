@@ -2,6 +2,9 @@ library(akgfmaps)
 library(reticulate)
 
 
+dir.create(here::here("data", "efh_bathy"), recursive = TRUE)
+dir.create(here::here("output", "efh_bathy"), recursive = TRUE)
+
 # Transform GEBCO Z coordinates to match Alaska bathymetry (negative is up)
 gebco <- terra::rast(here::here("data", "gebco_2023_n67.0_s54.0_w-175.0_e-154.0.tif"))
 gebco <- gebco * -1
@@ -23,7 +26,7 @@ efh_bathy_trim <- terra::rast(here::here("data", "efh_bathy", "efh_bathy_100.tif
 
 names(efh_bathy_trim) <- "depth"
 
-terra::writeRaster(efh_bathy_trim, here::here("data", "efh_bathy", "efh_bathy_100m.tif"), overwrite = TRUE)
+terra::writeRaster(efh_bathy_trim, here::here("output", "efh_bathy", "efh_bathy_100m.tif"), overwrite = TRUE)
 
 
 # Resample the 100 m resolution grid to 1 km
@@ -31,5 +34,8 @@ efh_100m <- terra::rast(here::here("data", "efh_bathy", "efh_bathy_100m.tif"))
 
 efh_1km <- terra::aggregate(efh_100m, fact = 10, fun = "mean")
 
-terra::writeRaster(efh_1km, here::here("data", "efh_bathy", "efh_1km.tif"), overwrite = TRUE)
+terra::writeRaster(efh_1km, here::here("output", "efh_bathy", "efh_bathy_1km.tif"), overwrite = TRUE)
+
+
+
 
