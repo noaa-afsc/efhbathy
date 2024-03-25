@@ -49,3 +49,5 @@ vignettes/*.pdf
 *.pptx
 /Presentation/
 /data/
+
+*.py
