@@ -14,7 +14,7 @@ gebco_epsg3338 <- akgfmaps::reproject_gebco(x = here::here("data", "gebco_2022_n
                                             z_direction = -1, # Elevation (up = positive)
                                             return_slope_aspect = TRUE)
 
-# Raster of 1 and NA where 1 indicates locations with data in the EFH bathymety. Multiplying this by the GEBCO will effectively mask the transformed GEBCO raster to locations with data without re-masking using the survey area shapefile
+# Raster of 1 and NA where 1 indicates locations with data in the EFH bathymetry. Multiplying this by the GEBCO will effectively mask the transformed GEBCO raster to locations with data without re-masking using the survey area shapefile
 ebs_bathy_locs <- round(ebs_bathy_raster/1e8) + 1
 
 # Multiply by binary raster to only include data at the same locations as the EBS bathymetry raster

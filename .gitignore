@@ -48,3 +48,4 @@ vignettes/*.pdf
 *.docx
 *.pptx
 /Presentation/
+/data/
