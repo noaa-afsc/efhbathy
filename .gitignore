@@ -51,3 +51,4 @@ vignettes/*.pdf
 /data/
 
 *.py
+*_100m.tif
