@@ -50,5 +50,4 @@ vignettes/*.pdf
 /Presentation/
 /data/
 
-*.py
 *_100m.tif
