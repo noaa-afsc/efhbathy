@@ -16,7 +16,8 @@ gebco <- terra::mask(gebco, map_layers$akland[2,], inverse = TRUE)
 terra::writeRaster(gebco, filename = here::here("data", "data", "gebco_2023_inverse.tif"))
 
 
-# ADD ARCPY SCRIPT
+# ArcPy
+# Python 3.9 with ArcGIS pro version 3.1
 
 
 ## Trim blank areas around the edge and rename the depth band
