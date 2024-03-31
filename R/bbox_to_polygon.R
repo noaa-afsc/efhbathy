@@ -6,7 +6,6 @@
 #' @param crs coordinate reference system for output. Can be automatically detected if sf is a polygon.
 #' @export
 
-
 bbox_to_polygon <- function(x, crs = NA) {
   
   if(!("bbox" %in% class(x))) {
@@ -18,8 +17,8 @@ bbox_to_polygon <- function(x, crs = NA) {
   
   stopifnot("bbox_to_polygon: x must be either bbox object or an object that can be converted to a polygon using st_bbox()" = "bbox" %in% class(x))  
   
-  bbox_poly <- cbind(c(bbox['xmin'], bbox['xmax'], bbox['xmax'], bbox['xmin'], bbox['xmin']), 
-                     c(bbox['ymin'], bbox['ymin'], bbox['ymax'], bbox['ymax'], bbox['ymin'])
+  bbox_poly <- cbind(c(x['xmin'], x['xmax'], x['xmax'], x['xmin'], x['xmin']), 
+                     c(x['ymin'], x['ymin'], x['ymax'], x['ymax'], x['ymin'])
   ) |>
     list() |>
     sf::st_polygon() |>
