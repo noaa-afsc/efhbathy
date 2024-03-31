@@ -1,3 +1,5 @@
 x,y,label,region,focal_buffer,extended_buffer
 -173.9335093,52.1756401,Nazan Bay,ai,17000,50000
--163.4720598,56.25,RKC Savings Area,sebs,115000,130000
+-162.4,56.4,RKC Savings Area,sebs,120000,135000
+-169.4,57.1,Pribilof Islands,sebs,75000,85000
+-165.2,63.96,Norton Sounds,nbs,150000,160000
