@@ -2,6 +2,8 @@ library(akgfmaps)
 library(MultiscaleDTM)
 source(here::here("R", "bbox_to_polygon.R")) # Function to be included in an upcoming akgfmaps release
 
+dir.create(here::here("analysis", "efh_bathymetry_2028", "plots", "BPI"), recursive = TRUE)
+
 locations <- read.csv(file = here::here("analysis", "efh_bathymetry_2028", "data", "terrain_example_zones.csv"))
 
 theme_1 <- function() {
@@ -146,6 +148,7 @@ for(ii in 1:nrow(locations)) {
   ragg::agg_png(filename = here::here("analysis", 
                                       "efh_bathymetry_2028", 
                                       "plots", 
+                                      "BPI",
                                       paste0("BPI_Bathy_", 
                                              gsub(x = set_loc$label, 
                                                   pattern = " ", 
@@ -261,6 +264,7 @@ for(ii in 1:nrow(locations)) {
   ragg::agg_png(filename = here::here("analysis", 
                                       "efh_bathymetry_2028", 
                                       "plots", 
+                                      "BPI",
                                       paste0("BPI_Bathy_", 
                                              gsub(x = set_loc$label, 
                                                   pattern = " ", 
@@ -367,6 +371,7 @@ for(ii in 1:nrow(locations)) {
   ragg::agg_png(filename = here::here("analysis", 
                                       "efh_bathymetry_2028", 
                                       "plots", 
+                                      "BPI",
                                       paste0("BPI_Bathy_", 
                                              gsub(x = set_loc$label, 
                                                   pattern = " ", 
