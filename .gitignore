@@ -49,5 +49,6 @@ vignettes/*.pdf
 *.pptx
 /Presentation/
 /data/
+/archive/
 
 *_100m.tif
