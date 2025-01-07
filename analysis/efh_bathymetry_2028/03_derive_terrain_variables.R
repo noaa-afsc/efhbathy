@@ -82,13 +82,13 @@ writeRaster(slope_t_100m,
 
 
 # Resample 100-m rasters to 1-km resolution ----
-slope_t_1km <- terra::aggregate(slope_t, fact = 10, fun = "mean")
+slope_t_1km <- terra::aggregate(slope_t_100m, fact = 10, fun = "mean")
 
-slope_aspect_dtm_1km <- terra::aggregate(slope_aspect_dtm, fact = 10, fun = "mean")
+slope_aspect_dtm_1km <- terra::aggregate(slope_aspect_dtm_100m, fact = 10, fun = "mean")
 
-curvature_slope_dtm_1km <- terra::aggregate(curvature_slope_dtm, fact = 10, fun = "mean")
+curvature_slope_dtm_1km <- terra::aggregate(curvature_slope_dtm_100m, fact = 10, fun = "mean")
 
-bpi_dtm_1km <- terra::aggregate(bpi_dtm, fact = 10, fun = "mean")
+bpi_dtm_1km <- terra::aggregate(bpi_dtm_100m, fact = 10, fun = "mean")
 
 
 # Write 1-km rasters to GeoTIFF files ----
