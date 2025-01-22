@@ -39,45 +39,8 @@ curvature_slope_dtm_100m <- MultiscaleDTM::Qfit(r = bathy_100m,
                                            metrics = c("meanc", "profc",  "qslope"),
                                            na.rm = TRUE)
 
-# MultiscaleDTM: BATHYMETRIC POSITION INDEX (BPI) ----
-start2 <- Sys.time()
-difftime(start2, start1)
-
-bpi_dtm_3_64_100m <- MultiscaleDTM::BPI(r = bathy_100m,
-                              w = bpi_w,
-                              unit = "cell", # Units for window
-                              stand = "none",
-                              na.rm = TRUE
-)
-
-bpi_dtm_15_64_100m <- MultiscaleDTM::BPI(r = bathy_100m,
-                                   w = c(15, 64),
-                                   unit = "cell", # Units for window
-                                   stand = "none",
-                                   na.rm = TRUE
-)
-
-bpi_dtm_30_124_100m <- MultiscaleDTM::BPI(r = bathy_100m,
-                                         w = c(30, 124),
-                                         unit = "cell", # Units for window
-                                         stand = "none",
-                                         na.rm = TRUE
-)
-
-end2 <- Sys.time()
-difftime(start2, end2)
-
 # Write 100-m rasters to GeoTIFF files ----
 
-writeRaster(bpi_dtm_3_64_100m, 
-            here::here("analysis", "efh_bathymetry_2028", "output", "terrain", "efh_bpi_3_64_100m.tif"), 
-            overwrite = TRUE)
-writeRaster(bpi_dtm_15_64_100m, 
-            here::here("analysis", "efh_bathymetry_2028", "output", "terrain", "efh_bpi_15_64_100m.tif"), 
-            overwrite = TRUE)
-writeRaster(bpi_dtm_30_124_100m, 
-            here::here("analysis", "efh_bathymetry_2028", "output", "terrain", "efh_bpi_30_124_100m.tif"), 
-            overwrite = TRUE)
 writeRaster(curvature_slope_dtm_100m$meanc, 
             here::here("analysis", "efh_bathymetry_2028", "output", "terrain", "efh_dtm_meancurv_100m.tif"), 
             overwrite = TRUE)
@@ -102,12 +65,6 @@ writeRaster(slope_t_100m,
 
 
 # Resample 100-m rasters to 1-km resolution ----
-bpi_dtm_3_64_1km <- terra::aggregate(bpi_dtm_3_64_100m, fact = 10, fun = "mean")
-
-bpi_dtm_15_64_1km <- terra::aggregate(bpi_dtm_15_64_100m, fact = 10, fun = "mean")
-
-bpi_dtm_30_124_1km <- terra::aggregate(bpi_dtm_30_124_100m, fact = 10, fun = "mean")
-
 slope_t_1km <- terra::aggregate(slope_t_100m, fact = 10, fun = "mean")
 
 slope_aspect_dtm_1km <- terra::aggregate(slope_aspect_dtm_100m, fact = 10, fun = "mean")
@@ -117,15 +74,6 @@ curvature_slope_dtm_1km <- terra::aggregate(curvature_slope_dtm_100m, fact = 10,
 
 # Write 1-km rasters to GeoTIFF files ----
 
-writeRaster(bpi_dtm_3_64_1km, 
-            here::here("analysis", "efh_bathymetry_2028", "output", "terrain", "efh_bpi_3_64_1km.tif"), 
-            overwrite = TRUE)
-writeRaster(bpi_dtm_15_64_1km, 
-            here::here("analysis", "efh_bathymetry_2028", "output", "terrain", "efh_bpi_15_64_1km.tif"), 
-            overwrite = TRUE)
-writeRaster(bpi_dtm_30_124_1km, 
-            here::here("analysis", "efh_bathymetry_2028", "output", "terrain", "efh_bpi_30_124_1km.tif"), 
-            overwrite = TRUE)
 writeRaster(curvature_slope_dtm_1km$meanc, 
             here::here("analysis", "efh_bathymetry_2028", "output", "terrain", "efh_dtm_meancurv_1km.tif"), 
             overwrite = TRUE)
