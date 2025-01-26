@@ -30,6 +30,8 @@ slope_aspect_dtm_100m <- MultiscaleDTM::SlpAsp(r = bathy_100m,
                                           method = "queen",
                                           metrics = c("slope", "eastness", "northness"),
                                           na.rm = TRUE)
+start2 <- Sys.time()
+difftime(start2, start1)
 
 # MultiscaleDTM: MEAN CURVATURE, PROFILE CURVATURE, SLOPE
 # Derived from quadratic fit using OLS
@@ -38,6 +40,9 @@ curvature_slope_dtm_100m <- MultiscaleDTM::Qfit(r = bathy_100m,
                                            w = c(5, 5),
                                            metrics = c("meanc", "profc",  "qslope"),
                                            na.rm = TRUE)
+
+start3 <- Sys.time()
+difftime(start3, start2)
 
 # Write 100-m rasters to GeoTIFF files ----
 
