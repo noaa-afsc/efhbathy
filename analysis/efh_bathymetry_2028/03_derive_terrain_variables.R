@@ -26,7 +26,7 @@ slope_t_100m <- terra::terrain(x = bathy_100m,
 # Queen case with window = 5
 slope_aspect_dtm_100m <- MultiscaleDTM::SlpAsp(r = bathy_100m,
                                           unit = "degrees", # Output units
-                                          w = c(5, 5),
+                                          w = c(3, 3),
                                           method = "queen",
                                           metrics = c("slope", "eastness", "northness"),
                                           na.rm = TRUE)
@@ -37,7 +37,7 @@ difftime(start2, start1)
 # Derived from quadratic fit using OLS
 curvature_slope_dtm_100m <- MultiscaleDTM::Qfit(r = bathy_100m,
                                            unit = "degrees", # Output units
-                                           w = c(5, 5),
+                                           w = c(3, 3),
                                            metrics = c("meanc", "profc",  "qslope"),
                                            na.rm = TRUE)
 
