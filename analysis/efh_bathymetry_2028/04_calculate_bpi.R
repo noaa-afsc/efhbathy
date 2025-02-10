@@ -7,9 +7,8 @@ library(MultiscaleDTM) # last run: version 0.8.3
 
 dir.create(here::here("analysis", "efh_bathymetry_2028", "output", "terrain"))
 
-# 2023 Review: Queen case (3x3 neighborhood) for deriving seafloor terrain
-neighbors <- 8
-bpi_w = c(3, 64) # 2023 Review: AI and GOA Radius 3 x 65; EBS radius 3 x 64
+# 2023 Review: AI and GOA Radius 3 x 65; EBS radius 3 x 64
+bpi_w = c(3, 64) 
 
 
 # Calculate terrain variables for 100-m resolution
