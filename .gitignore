@@ -49,6 +49,8 @@ vignettes/*.pdf
 *.pptx
 /Presentation/
 /data/
+/analysis/evaluate_2023_bathymetry/data/
+/analysis/evaluate_2023_bathymetry/EBS_2022/
 /archive/
 
 *_100m.tif

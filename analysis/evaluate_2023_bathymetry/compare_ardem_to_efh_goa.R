@@ -10,7 +10,7 @@ haul_dat <- RODBC::sqlQuery(channel = channel,
                             query = "select * from racebase.haul where cruise = 202101 and vessel in (148, 176)")
 
 # Load Alaska Region Digital Elevation Model (ARDEM v2.0) - Seth Danielson--------------------------
-ARDEM <- raster::raster(here::here("data", "ARDEMv2.0.nc"), varname = "z")
+ARDEM <- raster::raster(here::here("analysis", "evaluate_2023_bathymetry", "data", "ARDEMv2.0.nc"), varname = "z")
 
 set_extent <- raster::extent(ARDEM)
 set_extent@ymin <- 50
@@ -57,7 +57,7 @@ goa_raster_df <- goa_raster |>
   rasterToPoints() |>
   as.data.frame()
 
-png(here::here("plots", "GOA_ardem_vs_GOA_bathy.png"), width = 10, height = 12, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "GOA_ardem_vs_GOA_bathy.png"), width = 10, height = 12, units = "in", res = 300)
 print(
   cowplot::plot_grid(
     ggplot() +
@@ -99,7 +99,7 @@ haul_loc$GOA_BATHY_RASTER_DEPTH <- goa_raster_sf$goa_bathp1c[haul_loc$GOA_BATHY_
 haul_loc$ARDEM_RASTER_INDEX <- st_nearest_feature(haul_loc, ARDEM_sf)
 haul_loc$ARDEM_RASTER_DEPTH <- ARDEM_sf$layer[haul_loc$ARDEM_RASTER_INDEX]
 
-png(here::here("plots", "GOA_ardem_vs_goa_bathy_points.png"), width = 10, height = 5, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "GOA_ardem_vs_goa_bathy_points.png"), width = 10, height = 5, units = "in", res = 300)
 print(
   cowplot::plot_grid(
     ggplot() +
@@ -116,7 +116,7 @@ print(
 )
 dev.off()
 
-png(here::here("plots", "GOA_survey_vs_bathy_map.png"), width = 8, height = 8, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "GOA_survey_vs_bathy_map.png"), width = 8, height = 8, units = "in", res = 300)
 print(
   ggplot() +
     geom_contour_filled(data = goa_raster_df,
@@ -135,7 +135,7 @@ print(
 dev.off()
 
 
-png(here::here("plots", "GOA_survey_vs_ARDEM_map.png"), width = 8, height = 8, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "GOA_survey_vs_ARDEM_map.png"), width = 8, height = 8, units = "in", res = 300)
 print(
   ggplot() +
     geom_contour_filled(data = ARDEM_reproj_df,

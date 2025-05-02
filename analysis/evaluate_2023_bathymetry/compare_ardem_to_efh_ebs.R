@@ -11,7 +11,7 @@ haul_dat <- RODBC::sqlQuery(channel = channel,
 
 
 # Load Alaska Region Digital Elevation Model (ARDEM v2.0) - Seth Danielson--------------------------
-ARDEM <- raster::raster(here::here("data", "ARDEMv2.0.nc"), varname = "z")
+ARDEM <- raster::raster(here::here("analysis", "evaluate_2023_bathymetry", "data", "ARDEMv2.0.nc"), varname = "z")
 
 set_extent <- raster::extent(ARDEM)
 set_extent@ymin <- 52
@@ -52,7 +52,7 @@ ARDEM_reproj@data@values <- -1*ARDEM_reproj@data@values
 ARDEM_reproj_df <- as.data.frame(raster::rasterToPoints(ARDEM_reproj))
 
 # Load EBS bathymetric raster
-ebs_bathy_raster <- raster::raster(here::here("data", "EBS", "Bathy.grd"))
+ebs_bathy_raster <- raster::raster(here::here("analysis", "evaluate_2023_bathymetry", "data", "EBS", "Bathy.grd"))
 
 raster::rasterToPoints(ebs_bathy_raster)
 
@@ -61,7 +61,7 @@ ebs_bathy_raster_df <- ebs_bathy_raster |>
   rasterToPoints() |>
   as.data.frame()
 
-png(here::here("plots", "EBS_ardem_vs_EBS_bathy.png"), width = 18, height = 10, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "EBS_ardem_vs_EBS_bathy.png"), width = 18, height = 10, units = "in", res = 300)
 print(
   cowplot::plot_grid(
     ggplot() +
@@ -83,7 +83,7 @@ print(
 dev.off()
 
 
-png(here::here("plots", "EBS_ardem_vs_EBS_bathy_wlines.png"), width = 18, height = 10, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "EBS_ardem_vs_EBS_bathy_wlines.png"), width = 18, height = 10, units = "in", res = 300)
 print(
   cowplot::plot_grid(
     ggplot() +
@@ -110,7 +110,7 @@ print(
 )
 dev.off()
 
-png(here::here("plots", "EBS_ardem_vs_EBS_bathy_50m.png"), width = 18, height = 10, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "EBS_ardem_vs_EBS_bathy_50m.png"), width = 18, height = 10, units = "in", res = 300)
 print(
   cowplot::plot_grid(
     ggplot() +
@@ -158,7 +158,7 @@ haul_loc$EBSBATHY_RASTER_DEPTH <- ebs_bathy_raster_sf$ebs_bath5hac[haul_loc$EBSB
 haul_loc$ARDEM_RASTER_INDEX <- st_nearest_feature(haul_loc, ARDEM_sf)
 haul_loc$ARDEM_RASTER_DEPTH <- ARDEM_sf$layer[haul_loc$ARDEM_RASTER_INDEX]
 
-png(here::here("plots", "EBS_ardem_vs_EBS_bathy_points.png"), width = 10, height = 5, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "EBS_ardem_vs_EBS_bathy_points.png"), width = 10, height = 5, units = "in", res = 300)
 print(
     ggplot() +
       geom_point(data = haul_loc |>
@@ -170,7 +170,7 @@ print(
 )
 dev.off()
 
-png(here::here("plots", "EBS_survey_vs_bathy_map.png"), width = 8, height = 8, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "EBS_survey_vs_bathy_map.png"), width = 8, height = 8, units = "in", res = 300)
 print(
   ggplot() +
     geom_contour_filled(data = ebs_bathy_raster_df,
@@ -189,7 +189,7 @@ print(
 dev.off()
 
 
-png(here::here("plots", "EBS_survey_vs_ARDEM_map.png"), width = 8, height = 8, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "EBS_survey_vs_ARDEM_map.png"), width = 8, height = 8, units = "in", res = 300)
 print(
   ggplot() +
     geom_contour_filled(data = ARDEM_reproj_df,
@@ -230,7 +230,7 @@ ARDEM_slope_df <- raster::terrain(
   raster::rasterToPoints() |>
   as.data.frame()
 
-png(here::here("plots", "EBS_ardem_vs_EBS_bathy_slope.png"), width = 18, height = 10, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "EBS_ardem_vs_EBS_bathy_slope.png"), width = 18, height = 10, units = "in", res = 300)
 print(
   cowplot::plot_grid(
     ggplot() +
@@ -255,7 +255,7 @@ dev.off()
 
 
 
-png(here::here("plots", "EBS_ardem_vs_EBS_bathy_aspect.png"), width = 18, height = 10, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "EBS_ardem_vs_EBS_bathy_aspect.png"), width = 18, height = 10, units = "in", res = 300)
 print(
   cowplot::plot_grid(
     ggplot() +
@@ -280,8 +280,8 @@ dev.off()
 
 
 # Check if the EFH and archived raster files are the same ------------------------------------------
-ebs_bathy_raster <- raster::raster(here::here("data", "EBS", "Bathy.grd"))
-ebs_2020mod_raster <- raster::raster(here::here("data", "EBS", "bathy_2015_1km_2020mod.grd"))
+ebs_bathy_raster <- raster::raster(here::here("analysis", "evaluate_2023_bathymetry", "data", "EBS", "Bathy.grd"))
+ebs_2020mod_raster <- raster::raster(here::here("analysis", "evaluate_2023_bathymetry", "data", "EBS", "bathy_2015_1km_2020mod.grd"))
 
 # Dimensions, CRS, resolution, value range, and extents are identical
 ebs_bathy_raster

@@ -38,7 +38,7 @@ and (e.haul_type in (3, 13))") |>
 
 
 # Load Alaska Region Digital Elevation Model (ARDEM v2.0) - Seth Danielson--------------------------
-ARDEM <- raster::raster(here::here("data", "ARDEMv2.0.nc"), varname = "z")
+ARDEM <- raster::raster(here::here("analysis", "evaluate_2023_bathymetry", "data", "ARDEMv2.0.nc"), varname = "z")
 
 set_extent <- raster::extent(ARDEM)
 set_extent@ymin <- 52
@@ -78,14 +78,14 @@ ARDEM_reproj@data@values <- -1*ARDEM_reproj@data@values
 ARDEM_reproj_df <- as.data.frame(raster::rasterToPoints(ARDEM_reproj))
 
 # Load EBS bathymetric raster
-Slope_bath_raster <- raster::raster(here::here("data", "EBS", "Bathy.grd"))
+Slope_bath_raster <- raster::raster(here::here("analysis", "evaluate_2023_bathymetry", "data", "EBS", "Bathy.grd"))
 
 Slope_bath_raster_df <- Slope_bath_raster |>
   raster::mask(map_npac$survey.area) |>
   rasterToPoints() |>
   as.data.frame()
 
-png(here::here("plots", "SLOPE_ardem_vs_EBS_bathy.png"), width = 18, height = 10, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "SLOPE_ardem_vs_EBS_bathy.png"), width = 18, height = 10, units = "in", res = 300)
 print(
   cowplot::plot_grid(
     ggplot() +
@@ -127,7 +127,7 @@ haul_loc$EBSBATHY_RASTER_DEPTH <- Slope_bath_raster_sf$ebs_bath5hac[haul_loc$EBS
 haul_loc$ARDEM_RASTER_INDEX <- st_nearest_feature(haul_loc, ARDEM_sf)
 haul_loc$ARDEM_RASTER_DEPTH <- ARDEM_sf$layer[haul_loc$ARDEM_RASTER_INDEX]
 
-png(here::here("plots", "SLOPE_ardem_vs_EBS_bathy_points.png"), width = 10, height = 5, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "SLOPE_ardem_vs_EBS_bathy_points.png"), width = 10, height = 5, units = "in", res = 300)
 print(
   ggplot() +
     geom_point(data = haul_loc |>
@@ -144,7 +144,7 @@ for(ii in 1:6) {
   
   bssa <- akgfmaps::get_base_layers(select.region = paste0("bssa", ii), set.crs = "EPSG:3338")
   
-  png(here::here("plots", paste0("SLOPE_bssa_", ii, "_ardem_vs_EBS_bathy.png")), 
+  png(here::here("analysis", "evaluate_2023_bathymetry", "plots", paste0("SLOPE_bssa_", ii, "_ardem_vs_EBS_bathy.png")), 
       width = 18, height = 10, units = "in", res = 300)
   print(
     cowplot::plot_grid(
@@ -186,7 +186,7 @@ for(ii in 1:6) {
   
 }
 
-png(here::here("plots", "SLOPE_survey_vs_bathy_map.png"), width = 8, height = 8, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "SLOPE_survey_vs_bathy_map.png"), width = 8, height = 8, units = "in", res = 300)
 print(
   ggplot() +
     geom_contour_filled(data = Slope_bath_raster_df,
@@ -205,7 +205,7 @@ print(
 dev.off()
 
 
-png(here::here("plots", "SLOPE_survey_vs_ARDEM_map.png"), width = 8, height = 8, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "SLOPE_survey_vs_ARDEM_map.png"), width = 8, height = 8, units = "in", res = 300)
 print(
   ggplot() +
     geom_contour_filled(data = ARDEM_reproj_df,
@@ -246,7 +246,7 @@ ARDEM_slope_df <- raster::terrain(
   raster::rasterToPoints() |>
   as.data.frame()
 
-png(here::here("plots", "SLOPE_ardem_vs_EBS_bathy_slope.png"), width = 18, height = 10, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "SLOPE_ardem_vs_EBS_bathy_slope.png"), width = 18, height = 10, units = "in", res = 300)
 print(
   cowplot::plot_grid(
     ggplot() +
@@ -271,7 +271,7 @@ dev.off()
 
 
 
-png(here::here("plots", "SLOPE_ardem_vs_Slope_bath_aspect.png"), width = 18, height = 10, units = "in", res = 300)
+png(here::here("analysis", "evaluate_2023_bathymetry", "plots", "SLOPE_ardem_vs_Slope_bath_aspect.png"), width = 18, height = 10, units = "in", res = 300)
 print(
   cowplot::plot_grid(
     ggplot() +
