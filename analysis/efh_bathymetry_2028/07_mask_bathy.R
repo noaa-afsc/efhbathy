@@ -70,16 +70,19 @@ for(ii in c("AI", "GOA", "EBS")) {
   names(region_vars) <- names(raster_stack)
   
   # Pack SpatRaster so it can be written to a .rda file
-  region_vars <- terra::wrap(region_vars)
+  assign(
+    x = paste0("static_variables_", tolower(ii)), 
+    value = terra::wrap(region_vars)
+    )
   
   # Save wrapped PackedSpatRaster to .rda
   save(
-    region_vars, 
+    list = paste0("static_variables_", tolower(ii)),
     file = here::here(
       "analysis", 
       "efh_bathymetry_2028", 
       "output", 
-      paste0("efh_terrain_variables_", ii, ".rda")
+      paste0("efh_static_variables_", ii, ".rda")
     )
   )
   
@@ -91,5 +94,5 @@ load(
   "analysis",
   "efh_bathymetry_2028",
   "output",
-  paste0("efh_terrain_variables_", ii, ".rda")
+  paste0("efh_static_variables_", ii, ".rda")
 ))
